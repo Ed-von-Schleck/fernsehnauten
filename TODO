@@ -1,0 +1,6 @@
+* konsequente _ oder CamelCase-Schreibweise
+* alle foreign key fields auf *_id enden lassen
+* auf username statt user_id umstellen als durchgängige identifikation umstellen
+* Zeige Emailadresse im Profil des Users
+* baukastensystem für channels übersicht
+* Tutorial

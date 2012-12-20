@@ -1,0 +1,197 @@
+/* CSS declarations go here */
+body, h1, h2, h3, h4, h5, p {
+  margin: 0;
+}
+
+.program, #header h1, #header p, .channel p.currentProgram, #fixed_header h1 {
+  margin-left: 256px;
+}
+
+#header, #fixed_header {
+  background-color: black;
+  width: 100%;
+  color: #1BE0DD;
+}
+
+#header {
+  height: 96px;
+  padding: 16px 0;
+  z-index: 12;
+  top: 0;
+  position: relative;
+  /*
+  position: fixed;
+  */
+}
+
+#fixed_header {
+  height: 20px;
+  position: fixed;
+  top: 0;
+  z-index: 11;
+}
+
+#fixed_header h1 {
+  line-height: 20px;
+  font-size: 20px;
+}
+
+#header h1, #header p, #fixed_header h1 {
+  padding-left: 16px;
+}
+
+#header h1 {
+  font-size: 76px;
+  line-height: 76px;
+}
+
+#header p {
+  font-size: 20px;
+  line-height: 20px;
+  letter-spacing: 0.5em;
+}
+
+#main {
+  box-shadow: 0 0 25px white;
+  background-color: white;
+  overflow: auto;
+}
+
+body {
+  font-family: sans-serif;
+}
+
+.set_on_click:hover {
+  cursor: pointer;
+}
+
+.channel {
+  clear: left;
+  overflow: auto;
+  height: 128px;
+  position: relative;
+}
+
+.channel:nth-child(odd), .channel_bar_item:nth-child(odd) {
+  background-color: #dddddd;
+}
+
+.channel:nth-child(even), .channel_bar_item:nth-child(even) {
+  background-color: #eeeeee;
+}
+
+.channel:hover, .channel_bar_item:hover {
+  box-shadow: 0 2px 10px gray;
+  z-index: 10;
+  background: #ffffff; /* Old browsers */
+  background: -moz-linear-gradient(top, #ffffff 0%, #eeeeee 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#eeeeee)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #ffffff 0%,#eeeeee 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #ffffff 0%,#eeeeee 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #ffffff 0%,#eeeeee 100%); /* IE10+ */
+  background: linear-gradient(to bottom, #ffffff 0%,#eeeeee 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#eeeeee',GradientType=0 ); /* IE6-9 */
+
+}
+
+div.logo {
+  float: left;
+  background-size: contain;
+  width: 256px;
+  height: 128px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  overflow: hidden;
+  position: relative;
+}
+div.logo p {
+  display: none;
+}
+div.logo:hover p {
+  display: block;
+  position: absolute;
+  bottom: 8px;
+  font-weight: bold;
+  width: 100%;
+  text-align: center;
+  text-shadow: 0 0 2px black;
+  color: #1BE0DD;
+}
+
+p.currentProgram {
+  padding: 16px;
+}
+
+span.currentTitle,  span.currentSubTitle, span.currentDuration {
+  display: block;
+}
+
+span.currentTitle {
+  font-weight: bold;
+  font-size: larger;
+}
+
+span.currentSubTitle {
+}
+
+span.currentCategory {
+}
+
+span.currentDuration {
+  font-style: italic;
+  font-weight: bold
+}
+
+.channel_bar {
+  height: 100%;
+  float: left;
+  position: fixed;
+  overflow-y: hidden;
+}
+
+.channel_bar:hover {
+  /*
+  */
+  overflow-y: auto;
+}
+
+.channel_bar_item {
+  overflow: hidden;
+  position: relative;
+  width: 256px;
+}
+
+.program {
+  padding: 16px;
+  height: 100%;
+}
+
+.program textarea {
+  font-family: sans-serif;
+  resize: none;
+  width: 50%;
+}
+
+#beta {
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  z-index: 100;
+  position: absolute;
+  background-color: red;
+  color: white;
+  padding: 5px 60px;
+  font-size: larger;
+  text-shadow: 0 0 5px black;
+  left: -50px;
+  box-shadow: 0 0 15px white;
+}
+
+footer {
+  background-color: black;
+}
+
+.message_username {
+  font-weight: bold;
+}

@@ -1,0 +1,5 @@
+Channels = new Meteor.Collection "channels"
+Programs = new Meteor.Collection "programs"
+Messages = new Meteor.Collection "messages"
+Ratings = new Meteor.Collection "ratings"
+Rooms = new Meteor.Collection "rooms"

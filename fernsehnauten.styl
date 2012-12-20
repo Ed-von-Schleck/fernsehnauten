@@ -1,0 +1,697 @@
+@import "00-common"
+
+body, h1, h2, h3, h4, h5, p 
+  margin: 0
+
+html, body
+  font-family: sans-serif
+  height: 100%
+  box-sizing border-box
+  background-color: main_background_color
+  position: relative
+  overflow: auto
+
+a
+  text-decoration: none
+  color: black
+
+a:hover
+  text-decoration: underline
+  cursor: pointer
+
+.program, #header h1, #header p, .channel p.currentProgram, #fixed_header h1 
+  margin-left: logo_width
+
+#header, #fixed_header 
+  background-color: brand_background_color_dark
+  width: 100%
+  //color: brand_color
+  color: brand_foreground_color
+  top: 0
+
+#header 
+  height: 96px
+  padding: 16px 0
+  z-index: 12
+  position: relative
+  background-image: url(fernsehnauten_logo_draft_crop_001.png)
+  background-repeat: no-repeat
+  background-size: contain 
+  background-position: left
+  //top: -(fixed_header_height)
+
+#main_logo
+  height: 100%
+  width: 256px 
+  float: left
+
+#fixed_header 
+  height: fixed_header_height
+  position: fixed
+  z-index: 11
+  box-shadow: 0 0 16px black
+
+#fixed_header h1 
+  line-height: 20px
+  font-size: 20px
+
+#header h1, #header p, #fixed_header h1 
+  padding-left: 16px
+
+#header h1 
+  font-size: 76px
+  line-height: 76px
+
+#header p 
+  font-size: 20px
+  line-height: 20px
+  letter-spacing: 0.5em
+
+#main 
+  background-color: main_background_color
+  position: relative;
+  overflow: auto
+  //height: 100%
+
+.set_on_click:hover, button:hover
+  cursor: pointer
+
+.channel 
+  clear: left
+  overflow: auto
+  height: channel_height
+  position: relative
+
+.channel_bar_item
+  box-sizing: border-box
+  border-right: line 
+
+.channel:nth-child(odd), .channel_bar_item:nth-child(odd)
+  background-color: #dddddd
+
+.channel:nth-child(even), .channel_bar_item:nth-child(even)
+  background-color: #eeeeee
+
+.channel:hover, .channel_bar_item:hover
+  box-shadow: 0 2px 10px gray
+  z-index: 10
+  background-gradient(#ffffff, #eeeeee)
+  
+.channel_bar_item.active
+  //background-color: white
+  background: none
+  background-color: main_background_color
+  border-top: line
+  border-bottom: line
+  border-right: none
+
+.channel_bar_item.active:hover
+  //background: white
+  background: none
+  background-color: main_background_color
+  box-shadow: none
+
+div.logo 
+  float: left
+  background-size: contain
+  width: logo_width
+  height: channel_height
+  background-repeat: no-repeat
+  background-position: center center
+  overflow: hidden
+  position: relative
+
+div.logo p 
+  visibility: hidden
+  //display: none
+  opacity: 0
+  color: brand_foreground_color
+  background-color: brand_background_color_dark
+  position: absolute
+  padding: 8px 0
+  bottom: 0
+  font-weight: bold
+  width: 100%
+  text-align: center
+  //transition: opacity 0.5s ease
+
+div.channel_bar_item:not(.active) div.logo:hover p 
+  opacity: 1
+  transition: opacity 0.5s ease
+  //display: block
+  visibility: visible
+
+p.currentProgram 
+  padding: 16px
+
+span.currentTitle,  span.currentSubTitle, span.currentDuration 
+  display: block
+
+span.currentTitle 
+  font-weight: bold
+  font-size: larger
+
+span.currentSubTitle 
+
+span.currentCategory 
+
+span.currentDuration 
+  font-style: italic
+  font-weight: bold
+
+#channel_bar
+  height: 100%
+  position: absolute
+  overflow-y: hidden
+  //top: 0
+  left: 0
+
+#channel_bar:hover 
+  overflow-y: auto
+
+#channel_bar::-webkit-scrollbar
+  //background-color: white
+
+#channel_bar::-webkit-scrollbar-thumb
+  //border-color: white
+  //background-color: brand_background_color_dark
+  
+.channel_bar_item 
+  overflow: hidden
+  position: relative
+  width: logo_width
+
+.program 
+  padding: 16px
+  padding-bottom: 64px   // progress bar
+  margin-right: 384px + 16px
+
+.program textarea 
+  font-family: sans-serif
+  resize: none
+  width: 100%
+  box-sizing border-box
+
+#beta 
+  -webkit-transform: rotate(-45deg)
+  -moz-transform: rotate(-45deg)
+  -ms-transform: rotate(-45deg)
+  -o-transform: rotate(-45deg)
+  transform: rotate(-45deg)
+  z-index: 100
+  position: absolute
+  background-color: red
+  color: white
+  padding: 5px 60px
+  font-size: larger
+  text-shadow: 0 0 5px black
+  left: -50px
+  box-shadow: 0 0 15px white
+
+footer 
+  background-color: black
+
+.message_username 
+  font-weight: bold
+
+.channel_display_name
+  color: gray
+
+#timeline
+  position: fixed
+  padding: 16px 16px 16px 272px
+  bottom: 0
+  box-sizing border-box
+  width: 100%
+
+#timeline_bar
+  background-color: brand_background_color_light
+  padding: 4px
+  border: line
+  box-sizing border-box
+  border-radius: 2px
+  position: relative
+  box-shadow: 0 0 16px white
+
+#timeline_progress_bar
+  background-color: brand_foreground_color
+  box-sizing border-box
+  width: 0
+  height: 16px
+  border-radius: 1px
+  position: relative
+  box-shadow: 0 0 4px brand_background_color_dark
+
+.arrow_box
+  position: absolute
+  background: #eeeeee
+  border: 1px solid brand_background_color_dark
+
+.arrow_box:after, .arrow_box:before
+  top: 100%
+  border: solid transparent
+  content: " "
+  height: 0
+  width: 0
+  position: absolute
+  pointer-events: none
+
+.arrow_box:after
+  border-color: rgba(221, 221, 221, 0)
+  border-top-color: #eeeeee
+  border-width: 5px
+  left: 50%
+  margin-left: -5px
+
+.arrow_box:before
+  border-color: rgba(0, 0, 0, 0)
+  border-top-color: brand_background_color_dark
+  border-width: 6px
+  left: 50%
+  margin-left: -6px
+
+#progress_box
+  padding: 2px
+  font-size: 12px
+  line-height: 12px
+  top: -16px
+  //margin-top: -4px
+  box-shadow: 2px 2px 5px gray
+  border-radius: 2px
+  //visibility: hidden
+  width: 64px
+  right: -32px
+  text-align: center
+  box-sizing: border-box
+  opacity: 0.4
+  transition: opacity 0.5s ease
+
+#timeline:hover #progress_box
+  //visibility: visible
+  opacity: 1
+
+#program_info
+  float: right
+  border: line
+  margin: 16px
+  margin-bottom: 64px // timeline
+  width: 384px
+  border-radius: 2px
+  box-sizing border-box
+
+#similar_programs_info, #current_program_info
+  padding: 16px
+
+#current_program_info
+  background-color: brand_background_color_light
+
+.button_bar button
+  margin: 0
+  box-sizing border-box
+  border: none
+  padding: 8px
+  border: 1px solid brand_background_color_dark
+  border-right: none
+  font-weight: bold
+  color: brand_background_color_dark
+  clear: both
+  background-gradient(#eeeeee, #dddddd)
+  transition: all 0.2s ease
+
+.button_bar button:first-child
+  border-top-left-radius: 2px
+  border-bottom-left-radius: 2px
+
+.button_bar button:last-child
+  border-top-right-radius: 2px
+  border-bottom-right-radius: 2px
+  border-right: 1px solid brand_background_color_dark
+
+.button_bar button:hover
+  box-shadow: 1px 1px 3px gray
+  color: black
+  background-gradient(#ffffff, #eeeeee)
+
+.button_bar button.active, .button_bar button:active
+  box-shadow: inset 1px 1px 2px gray
+  background: #dddddd
+
+#like_button
+  background-gradient(#bde52b, #a5d328)
+
+#like_button.active
+  background-gradient(#a5d328, #bde52b)
+
+#dont_like_button
+  background-gradient(#ff594a, #ff1a00)
+
+#dont_like_button.active
+  background-gradient(#ff1a00, #ff4538)
+
+#rating_button_bar button
+  width: 50%
+
+.combined_ratings
+  margin: 8px 0 
+  overflow: auto
+
+.rating_bar
+  float: left
+  height: 8px
+  box-shadow: inset 0 0 0 1px brand_background_color_dark
+
+.positive_ratings
+  background: #bde52b
+
+.negative_ratings
+  background: #ff4538
+
+#similar_programs_info
+  color: #eeeeee
+  background: brand_background_color_dark
+/*
+.channels_rating_container
+  width: 256px
+  font-size: small
+  float: right
+*/
+#user_view_selection
+  text-align: center
+  padding: 16px
+
+.profile_image_container
+  background-color: brand_background_color_dark
+  float: left
+  position: relative
+  height: 130px
+  border: line
+  margin-right: 16px
+
+.profile_image_container p
+  position: absolute
+  width: 100%
+  bottom: 0
+  background-color: brand_background_color_dark
+  color: white
+  text-align: center
+  display: none
+  padding: 2px
+  box-sizing: border-box
+
+.profile_image_container p a
+  color: white
+
+.profile_image_container:hover p
+  display: block
+
+#user_view
+  max-width: 800px
+  margin: 0 auto
+
+.left_bar
+  float: left
+  width: 30%
+  border: 1px solid brand_background_color_dark
+  border-radius: 2px
+  box-sizing: border-box
+
+.left_bar input
+  width: 100%
+  border: line
+
+.left_bar label
+  font-weight: bold
+
+.left_bar_item
+  padding: 16px
+  border-top: 1px solid brand_background_color_dark
+
+.left_bar_item:first-child
+  border-top: none
+
+.left_bar_item.active
+  background-color: brand_background_color_light
+
+.user_list_item
+  overflow: auto
+  padding: 16px 0
+
+.user_list_item:first-child
+  padding-top: 0
+  
+img.avatar
+  float: left
+  background-color: brand_background_color_dark
+  width: small_avatar_size
+  margin-right: 8px
+
+#user_friends_main
+  margin-left: 30%
+  box-sizing: border-box
+  padding-left: 16px
+
+.darken_screen
+  position: fixed
+  width: 100%
+  height: 100%
+  z-index: 1000
+  animation: darken 1s
+  background-color: rgba(0, 0, 0, 0.5)
+
+@keyframes darken
+  from
+    background-color: rgba(0, 0, 0, 0)
+  to
+    background-color: rgba(0, 0, 0, 0.5)
+
+#back_button_bar
+  padding: 16px 0
+  float: left
+
+.bug_user_to_log_in
+  margin-top: 8px
+  background-color: brand_foreground_color
+  padding: 4px 8px
+  border: line
+  border-radius: 2px
+  text-align: center
+
+.bug_user_to_log_in a
+  //color: brand_foreground_color
+  color: black
+  //text-shadow: brand_foreground_color 0 0 2px
+  font-weight: bold
+  font-style: italic
+
+.bug_user_to_log_in a:hover
+  color: white
+
+#edit_room_name:hover
+  color: brand_foreground_color
+
+#room_selector
+  overflow: hidden
+  white-space: nowrap
+
+#room_selector:hover
+  overflow-x: auto
+  
+#room_selector button 
+  //width: 100%
+
+#room_selector button input
+  font-weight: bold
+
+.room_option_value
+  font-weight: bold
+
+#room_options
+  margin 8px 0
+  border-radius: 2px
+  border: line
+
+#room_options_header, #room_options_body
+  padding: 2px 4px
+
+#room_options_header
+  background: brand_background_color_dark
+  border-bottom: line
+  color: brand_foreground_color
+
+#room_options_body
+  background: brand_foreground_color
+
+#close_room
+  float: right
+  color: brand_foreground_color
+  font-weight: bold
+
+#older_messages
+  //text-align: center
+  color: brand_background_color_dark
+  font-style: italic
+  padding: 4px 0 8px 0
+
+#old_messages
+  color: gray
+
+#current_messages .current_messages_header
+  color: gray
+  border-bottom: 1px solid gray
+  margin-top: 8px
+
+.userwidget
+  height: 1em
+
+.userwidget_popup
+  position: absolute
+  display: none
+  background-color: white
+  padding: 8px
+  border: line
+  border-radius: 2px
+  color: black
+  box-shadow: 0 0 16px black
+  font-weight: normal
+  max-width: 300px
+
+.userwidget:hover .userwidget_popup
+  display: block
+  animation: fadein 0.5s
+
+.editable input
+  margin: 0
+  padding: 0
+  border-width: 0
+  border: none
+  outline: none
+  background: transparent
+
+.editable:hover:after
+  content: " ✎"
+
+.editable:hover
+  cursor: text
+
+#user_profile_content table
+  border: none
+
+#user_profile_content .placeholder
+  color: gray
+
+#user_profile_content .profile_key
+  width: 6em
+  margin-right: 0.5em
+  float: left
+  text-align: right
+
+#user_profile_content .profile_value
+  margin-left: 6.5em
+
+#user_profile_content .profile_value input
+  font-family: sans-serif
+  font-size: medium
+
+.profile_entry
+  overflow: auto
+
+.small_profile .description
+  color: gray
+
+.userwidget_popup .small_profile
+  margin-left: small_avatar_size
+  padding-left: 8px
+
+.userwidget_popup .friend_status
+  clear: left
+  margin-top: 8px
+
+.userwidget_popup .button_bar
+  float: right
+
+#message_marker
+  width: 2px
+  background-color: brand_background_color_dark
+  position: absolute
+  height: 16px
+  z-index: 1234
+  display: none
+  //left: -10000
+
+.fernsehnaut
+  font-weight: bold
+
+#chat_input
+  border: line
+  border-radius: 2px
+  background: #eee
+  transition: all 0.5s ease
+  margin-top: 8px
+
+#chat_input:focus, #chat_input:hover
+  outline: none
+  background: white
+  transition: background 0.5s ease
+
+#chat_input:focus
+  box-shadow: 0 0 16px gray
+  transition: box-shadow 0.5s ease
+
+#overview
+  overflow: auto
+
+.overview_channel
+  clear: left
+  //padding: 16px 0
+  height: overview_channel_height 
+  //left: overview_channel_height * 2
+  position: relative
+
+#overview_channel_logos
+  width: 16em
+  position: absolute
+  z-index: 2
+  box-shadow: 0 0 16px black
+/*
+.overview_channel .logo
+  //background-color: main_background_color
+  position: absolute
+  height: overview_channel_height
+  z-index: 1
+  background-color: #888
+  float: none
+*/
+
+.logo_container
+  height: overview_channel_height
+  width: 16em
+  vertical-align: center
+  background-gradient(#ddd, #ccc)
+  box-sizing: border-box
+  border-bottom: line
+
+.logo_container>div
+  height: 100%
+  width: 100%
+  background-size: contain
+  background-repeat: no-repeat
+  background-position: center center
+
+
+.overview_all_programs
+  position: relative
+
+.overview_program_outer
+  position: absolute
+  padding: 1em 0.1em
+  height: overview_channel_height
+  background-gradient(#555555, #777777)
+  box-sizing: border-box
+  border-bottom: line
+
+.overview_program_inner
+  background-color: main_background_color
+  height: overview_channel_height - 2em
+  border-radius: 5px
+  border: 2px solid transparent
+  box-sizing: border-box

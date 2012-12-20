@@ -1,0 +1,189 @@
+<template name="user_view">
+<div id="user_view">
+  <div class="button_bar" id="back_button_bar">
+    <button class="set_on_click" data-varname="main_view_state" data-value="main">←Zurück</button>
+  </div>
+  <div id="user_view_selection" class="button_bar">
+    <button class="set_on_click {{active_if "user_view_state" "friends"}}", data-varname="user_view_state" data-value="friends">Freunde</button><button class="set_on_click {{active_if "user_view_state" "profile"}}" data-varname="user_view_state" data-value="profile">Profil</button><button class="set_on_click {{active_if "user_view_state" "settings"}}", data-varname="user_view_state" data-value="settings">Einstellungen</button>
+  </div>
+  <div id="user_content">
+  {{#if session_equals "user_view_state" "settings"}}
+  {{> user_settings}}
+  {{else}}{{#if session_equals "user_view_state" "friends"}}
+  {{> user_friends}}
+  {{else}}
+  {{> user_profile}}
+  {{/if}}{{/if}}
+  </div>
+</div>
+</template>
+
+<template name="user_profile">
+<div id="user_profile">
+  <h2>{{currentUser.username}}</h2>
+  <div class="profile_image_container">
+    <img src="{{profile_image}}">
+    <p><a href="http://www.gravatar.com" target="_blank">ändere Avatar auf gravatar.com</a></p>
+    </div>
+  <div id="user_profile_content">
+    {{#isolate}}
+    {{profile_entry currentUser.profile.firstname "firstname" "Vorname" "Ihr Vorname"}}
+    {{/isolate}}
+    {{#isolate}}
+    {{profile_entry currentUser.profile.lastname "lastname" "Nachname" "Ihr Nachname"}}
+    {{/isolate}}
+    {{#isolate}}
+    {{profile_entry currentUser.profile.description "description" "Beschreibung" "Eine kurze Beschreibung von Ihnen"}}
+    {{/isolate}}
+</div>
+</template>
+
+<template name="profile_entry">
+<div class="profile_entry">
+  <div class="profile_key">{{human_keyname}}</div>
+  <div class="profile_value {{#unless key}}placeholder{{/unless}}">
+    <span data-key="{{keyname}}" class="editable">{{#if key}}{{key}}{{else}}{{placeholder}}{{/if}}</span>
+  </div>
+</div>
+</template>
+
+<template name="user_friends">
+<div id="user_friends">
+  <div class="left_bar">
+
+    <div class="left_bar_item set_on_click {{active_if "user_friends_view_state" "all_friends"}}" data-varname="user_friends_view_state" data-value="all_friends">
+      <label for="filter_friends">Alle Freunde</label>
+      <input type="text" id="filter_friends" placeholder="filtern">
+    </div>
+
+    <div class="left_bar_item set_on_click {{active_if "user_friends_view_state" "search_friends"}}" data-varname="user_friends_view_state" data-value="search_friends">
+      <label for="search_users_input">Freunde suchen</label>
+      <input type="text" id="search_users_input" placeholder="Name oder Email-Adresse">
+    </div>
+    <div class="left_bar_item set_on_click {{active_if "user_friends_view_state" "friend_requests"}}" data-varname="user_friends_view_state" data-value="friend_requests">
+      <label for="filter_friend_requests">Anfrangen von anderen</label>
+      <input type="text" id="filter_friend_requests" placeholder="filtern">
+    </div>
+    <div class="left_bar_item set_on_click {{active_if "user_friends_view_state" "pending_requests"}}" data-varname="user_friends_view_state" data-value="pending_requests">
+      <label for="filter_friend_requests">Eigene Anfragen</label>
+      <input type="text" id="filter_friend_requests" placeholder="filtern">
+    </div>
+  </div>
+  <div id="user_friends_main">
+  {{#if session_equals "user_friends_view_state" "search_friends"}}
+  {{> user_search_results}}
+  {{else}}{{#if session_equals "user_friends_view_state" "friend_requests"}}
+  {{> friend_requests}}
+  {{else}}{{#if session_equals "user_friends_view_state" "pending_requests"}}
+  {{> pending_requests}}
+  {{else}}
+  {{> all_friends}}
+  {{/if}}{{/if}}{{/if}}
+  </div>
+</div>
+</template>
+
+<template name="user_search_results">
+  {{#if session_get "user_search_input_value"}}
+  <div id="user_search_results">
+  <h3>Ergebnisse für <em>{{session_get "user_search_input_value"}}</em>:</h3>
+    {{#if search_results}}
+      {{#each search_results}}
+      <div class="user_list_item">
+        {{#constant}}
+        <img src="{{gravatar this.email_hash 64}}" alt="avatar von user {{this.name}}" class="avatar">
+        <h4>{{this.name}}</h4>
+        {{/constant}}
+        {{#isolate}}
+        {{#if is_friend this.name}}
+          {{#isolate}}
+          {{#if is_friend_status this._id "requested"}}
+          <div class="button_bar">
+            <button class="accept_friendship_name" value="{{this.name}}">Akzeptieren</button>
+          </div>
+          {{/if}}
+          {{/isolate}}
+          {{#isolate}}
+          {{#if is_friend_status this._id "pending"}}
+          <p>Freundschaft wurde angefragt</p>
+          {{/if}}
+          {{/isolate}}
+        <!--
+        <div class="button_bar">
+          <button disabled="true" class="request_friendship" value="{{this._id}}">Anfragen</button>
+        </div>
+        -->
+        {{else}}
+        {{#isolate}}
+        <div class="button_bar">
+          <button class="request_friendship_name" value="{{this.name}}">Anfragen</button>
+        </div>
+        {{/isolate}}
+        {{/if}}
+      {{/isolate}}
+      </div>
+      {{/each}}
+    {{else}}
+      <p>keine Ergebnisse</p>
+    {{/if}}
+  </div>
+  {{/if}}
+  {{#unless search_results}}
+  <div id="user_friends_suggenstions">
+    <h3>Vorschläge:</h3>
+    {{#each suggestions}}
+    {{this}}
+    {{/each}}
+  </div>
+  {{/unless}}
+</template>
+
+<template name="all_friends">
+<div id="all_friends">
+{{#each friends}}
+  {{#isolate}}
+  <div class="user_list_item">
+    {{#constant}}
+    <img src="{{gravatar this.email_hash 64}}" alt="avatar von user {{this.name}}" class="avatar">
+    {{small_profile this.name this.profile}}
+    {{/constant}}
+  </div>
+  {{/isolate}}
+{{/each}}
+</div>
+</template>
+
+<template name="friend_requests">
+<div id="friend_requests">
+{{#each requests}}
+  {{#isolate}}
+  <div class="user_list_item">
+    {{#constant}}
+    <img src="{{gravatar this.email_hash 64}}" alt="avatar von user {{this.name}}" class="avatar">
+    {{small_profile this.name this.profile}}
+    {{/constant}}
+    <div class="button_bar">
+      <button class="accept_friendship_name" value="{{this.name}}">Akzeptieren</button>
+    </div>
+  </div>
+  {{/isolate}}
+{{/each}}
+</div>
+</template>
+
+<template name="pending_requests">
+<div id="pending_requests">
+{{#each requests}}
+  <div class="user_list_item">
+  {{#constant}}
+    <img src="{{gravatar this.email_hash 64}}" alt="avatar von user {{this.name}}" class="avatar">
+    {{small_profile this.name this.profile}}
+  {{/constant}}
+  </div>
+{{/each}}
+</div>
+</template>
+
+
+<template name="user_settings">
+</template>

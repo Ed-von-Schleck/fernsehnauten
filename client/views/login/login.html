@@ -1,0 +1,139 @@
+<template name="fixed_login_button">
+<div id="fixed_login_button" class="login_button fixed_login_button">
+  <a class="set_on_click" data-varname="log_in_status" data-value="logging_in">Einloggen</a>
+</div>
+</template>
+
+<template name="fixed_user_status_button">
+<div id="fixed_user_status_button" class="login_button fixed_login_button">
+  <a>{{currentUser.username}}</a>
+  {{> fixed_user_menu}}
+</div>
+</template>
+
+<template name="absolute_user_status_button">
+<div id="absolute_user_status_buttons" class="login_button absolute_login_button">
+  <a class="toggle_on_click" data-varname="user_menu_status" data-value="show" data-other="hide">{{currentUser.username}}</a>
+</div>
+</template>
+
+<template name="login_form">
+<div class="darken_screen">
+  <div id="login_form">
+    <div id="login_form_header">
+      <h2 class="close_button set_on_click" data-varname="log_in_status" data-value="not_logged_in">X</h2>
+      <h2>Einloggen</h2>
+    </div>
+    {{#isolate}}
+    {{#if session_get "login_error"}}
+    <div id="login_form_error">
+      {{session_get "login_error"}}
+    </div>
+    {{/if}}
+    {{/isolate}}
+    <div id="login_form_body">
+      {{#isolate}}
+      {{#if session_equals "login_form_state" "log_in"}}
+      <div class="login_input_line">
+        <label for="username_or_email_input">Benutzername oder Emailadresse</label>
+        <input type="text" id="username_or_email_input">
+      </div>
+      {{/if}}
+      {{/isolate}}
+      {{#isolate}}
+      {{#if session_equals "login_form_state" "create_user"}}
+      <div class="login_input_line">
+        <label for="username_input">Benutzername</label>
+        <input type="text" id="username_input">
+        <p id="username_feedpack" class="create_user_input_feedback">{{session_get "username_feedback"}}</p>
+      </div>
+      {{/if}}
+      {{/isolate}}
+      {{#isolate}}
+      {{#unless session_equals "login_form_state" "log_in"}}
+      <div class="login_input_line">
+        <label for="email_input">Emailadresse</label>
+        <input type="text" id="email_input">
+        {{#if session_equals "login_form_state" "create_user"}}
+        <p id="email_feedpack" class="create_user_input_feedback">{{session_get "email_feedback"}}</p>
+        {{/if}}
+      </div>
+      {{/unless}}
+      {{/isolate}}
+      {{#isolate}}
+      {{#unless session_equals "login_form_state" "forgot_password"}}
+      <div class="login_input_line">
+        <label for="password_input">Passwort</label>
+        <input type="password" id="password_input">
+        {{#isolate}}
+        {{#if session_equals "login_form_state" "create_user"}}
+        <p id="password_feedpack" class="create_user_input_feedback">{{session_get "password_feedback"}}</p>
+        {{/if}}
+        {{/isolate}}
+      </div>
+        {{/unless}}
+      {{/isolate}}
+      <div class="button_bar">
+        {{#isolate}}
+        {{#if session_equals "login_form_state" "log_in"}}
+        <button id="login_button">Einloggen</button>
+        {{/if}}
+        {{/isolate}}
+        {{#isolate}}
+        {{#if session_equals "login_form_state" "create_user"}}
+        <button id="create_user_button" {{#unless session_get "can_create_user"}}disabled="true"{{/unless}}>Registrieren</button>
+        {{/if}}
+        {{/isolate}}
+        {{#isolate}}
+        {{#if session_equals "login_form_state" "forgot_password"}}
+        <button id="forgot_password_button">Password zusenden</button>
+        {{/if}}
+        {{/isolate}}
+      </div>
+      {{#isolate}}
+      {{#if session_equals "login_form_state" "log_in"}}
+      <p>
+        <a class="set_on_click" data-varname="login_form_state" data-value="forgot_password">Passwort vergessen?</a>
+      </p>
+      {{/if}}
+      {{/isolate}}
+    </div>
+    <div id="login_form_footer">
+      {{#isolate}}
+      {{#if session_equals "login_form_state" "log_in"}}
+      <p>
+        Noch kein Fernsehnaut? Kein Problem: Die Mitgliedschaft ist frei und sicher.
+        <a class="set_on_click" data-varname="login_form_state" data-value="create_user"> Jetzt Mitglied werden!</a>
+      </p>
+      {{/if}}
+      {{/isolate}}
+      {{#isolate}}
+      {{#if session_equals "login_form_state" "create_user"}}
+        Du bist schon Fernsehnaut? <a class="set_on_click" data-varname="login_form_state", data-value="log_in">Einloggen!</a>
+      {{/if}}
+      {{#if session_equals "login_form_state" "forgot_password"}}
+        Ist Ihnen das Passwort wieder eingefallen? <a class="set_on_click" data-varname="login_form_state", data-value="log_in">Einloggen!</a>
+      {{/if}}
+      {{/isolate}}
+    </div>
+  </div>
+</div>
+</template>
+
+<template name="fixed_user_menu">
+<div id="fixed_user_menu">
+{{> user_menu}}
+</div>
+</template>
+
+<template name="user_menu">
+<div id="user_menu">
+  <img class="avatar" src="{{gravatar currentUser.email_hash 64}}">
+  <div><a id="show_user_profile">Profil</a></div>
+  <div><a id="show_user_friends">Freunde</a></div>
+  <div><a id="show_user_settings">Einstellungen</a></div>
+  <div class="button_bar">
+    <button id="logout_button">Ausloggen</div>
+  </div>
+</div>
+</template>

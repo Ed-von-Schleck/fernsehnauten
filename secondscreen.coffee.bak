@@ -1,0 +1,32 @@
+Channels = new Meteor.Collection "channels"
+Programs = new Meteor.Collection "programs"
+
+Meteor.startup ->  if Meteor.isServer
+  Meteor.publish "channels", ->
+    return Channels.find({})
+
+  Meteor.publish "programs", ->
+    this.old_ids = []
+    this.old_keys = []
+    publish_current = () =>
+      timestamp = Math.round(+new Date / 1000) 
+      current_programs = Programs.find
+        start:
+          $lt: timestamp
+        stop:
+          $gt: timestamp
+      
+      this.unset "programs", _id, this.old_keys for _id in this.old_ids
+      this.old_ids = []
+      this.old_keys = []
+      this.min_stop = null
+      current_programs.forEach (program) =>
+        this.set "programs", program._id, program
+        this.old_ids.push program._id
+        this.old_keys = (key for key, value of program) if this.old_keys.length == 0
+        this.min_stop = program.stop if not this.min_stop? or program.stop < this.min_stop
+      timeout = this.min_stop * 1000 - +new Date
+      Meteor.setTimeout publish_current, timeout + 1000
+      this.flush()
+      
+    publish_current()

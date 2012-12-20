@@ -1,0 +1,73 @@
+logo_width = 256px
+channel_height = 128px
+brand_color = #32BDD9
+//brand_foreground_color = #FFBC40
+brand_foreground_color = #F19D29
+//brand_foreground_color_light = #F7DC8B
+brand_background_color_dark = #33454E
+brand_background_color_light = #A3B6BF
+//brand_background_color_dark = #0B3C65
+//brand_background_color_light = #78A6CD
+main_background_color = #F0F0F0
+line = 2px solid brand_background_color_dark
+fixed_header_height = 20px
+small_avatar_size = 64px
+
+overview_channel_height = 8em
+
+box-sizing()
+  -moz-box-sizing: arguments
+  box-sizing: arguments
+  -webkit-box-sizing: arguments
+
+box-shadow()
+  box-shadow: arguments
+  -moz-box-shadow: arguments
+  -webkit-box-shadow: arguments
+  -ms-box-shadow: arguments
+  -o-box-shadow: arguments
+
+background-gradient(top_color, bottom_color)
+  background: top_color
+  background: -moz-linear-gradient(top, top_color 0%, bottom_color 100%)
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,top_color), color-stop(100%,bottom_color))
+  background: -webkit-linear-gradient(top, top_color 0%,bottom_color 100%)
+  background: -o-linear-gradient(top, top_color 0%,bottom_color 100%)
+  background: -ms-linear-gradient(top, top_color 0%,bottom_color 100%)
+  background: linear-gradient(to bottom, top_color 0%,bottom_color 100%)
+  //filter progid:DXImageTransform.Microsoft.gradient( startColorstr='top_color', endColorstr='bottom_color',GradientType=0 )
+
+transition()
+  transition: arguments
+  -webkit-transition: arguments
+  -moz-transition: arguments
+  -ms-transition: arguments
+  -o-transition: arguments
+
+animation()
+  animation: arguments
+  -webkit-animation: arguments
+  -moz-animation: arguments
+  -ms-animation: arguments
+  -o-animation: arguments
+
+text-overflow()
+  text-overflow: arguments
+  -webkit-text-overflow: arguments
+  -moz-text-overflow: arguments
+  -ms-text-overflow: arguments
+  -o-text-overflow: arguments
+
+@keyframes fadein
+  from
+    opacity: 0
+  to
+    opacity: 1
+
+@keyframes flash
+  0%
+    color: red
+  50%
+    color: white
+  100%
+    color: red

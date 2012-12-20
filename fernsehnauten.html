@@ -1,0 +1,400 @@
+<head>
+  <title>Fernsehnauten</title>
+  <link rel="icon" href="fernsehnauten_logo_draft_icon_16.png" type="image/png">
+</head>
+
+<body>
+  {{#isolate}}
+  {{#if session_equals "log_in_status" "logging_in"}}
+  {{> login_form}}
+  {{/if}}
+  {{/isolate}}
+   {{#if currentUser}}
+    {{> fixed_user_status_button}}
+  {{else}}
+    {{> fixed_login_button}}
+  {{/if}}
+ <div id="header">
+    {{> beta}}
+    <div id="main_logo"></div>
+    <h1>Fernsehnauten</h1>
+    <p>zusammen besser fernsehen</p>
+  </div>
+  <div id="fixed_header">
+    <h1>Fernsehnauten</h1>
+  </div>
+  <div id="main" role="main">
+  {{#if session_equals "main_view_state" "user"}}
+    {{#if currentUser}}
+      {{> user_view}}
+    {{else}}
+      <!-- TODO: handle not logged-in user-->
+    {{/if}}
+  {{else}}
+    {{#if session_get "active_channel_id"}}
+    {{> channel}}
+    {{else}}
+    {{> overview}}
+    {{/if}}
+    
+  {{/if}}
+  </div>
+  <footer>
+  </footer>
+</body>
+
+<template name="channels">
+  <div id="channels">
+  {{#each data}}
+    {{#if currentProgramm this._id}}
+    <div class="channel set_on_click" data-value="{{this._id}}" data-varname="active_channel_id">
+      {{#constant}}
+      <div style="background-image: url({{this.logo}});" class="logo"></div>
+      {{/constant}}
+      <p class="currentProgram">
+        {{#isolate}}
+        <div class="channels_rating_container">
+        <h4>Diese Sendung</h4>
+        {{ratings this._id}}
+        <h4>Alle Sendungen dieses Programms</h4>
+        {{similar_ratings this._id}}
+        </div>
+        {{/isolate}}
+      {{#isolate}}
+      {{#with currentProgramm this._id}}
+        <span class="currentTitle">{{title.[0].[0]}}</span>
+        <span class="currentSubTitle">{{sub-title.[0].[0]}}</span>
+        <!--
+        <span class="currentCategory">{{category.[0].[0]}}</span>
+        -->
+        <span class="currentDuration">{{formatTime this.start}} - {{formatTime this.stop}} Uhr</span>
+      {{/with}}
+      {{/isolate}}
+      </p>
+    </div>
+    {{/if}}
+  {{/each}}
+  </div>
+</template>
+
+<template name="channel">
+  {{> channel_bar}}
+  {{> timeline}}
+  {{> program_info}}
+  <div class="program">
+    <div id="room_selector" class="button_bar">
+      {{#isolate}}{{#each rooms}}{{#isolate}}<button class="set_on_click" data-varname="active_room_id" data-value="{{this._id}}">{{this.name}}</button>{{/isolate}}{{/each}}{{/isolate}}{{#if currentUser}}<button id="add_room_button" value="add">+</button>{{/if}}
+    </div>
+    <div id="room_options">
+      {{#isolate}}
+      {{#with session_get "active_room"}}
+      <div id="room_options_header">
+        {{#if eq owner_id currentUser._id}}
+        <a id="close_room">Raum schließen</a>
+        {{/if}}
+        <span class="room_option_varname">Der Raum gehört</span>
+        {{#isolate}}
+        <span class="room_option_value">
+        {{#if is_null owner_id}}
+        allen
+        {{else}}
+        {{#if eq owner_id currentUser._id}}
+        dir
+        {{else}}
+        {{#unless is_undefined owner_name}}
+        {{userwidget owner_name}}
+        {{/unless}}
+        {{/if}}
+        {{/if}}
+        </span>
+        {{/isolate}}
+      </div>
+      <div id="room_options_body">
+        {{#if eq owner_id currentUser._id}}
+          <span class="room_option_varname">Sichtbar für</span>
+          {{room_option_owner "visible" options.visible}},
+          <span class="room_option_varname">lesbar für</span>
+          {{room_option_owner "read" options.read}},
+          <span class="room_option_varname">offen für</span>
+          {{room_option_owner "write" options.write}}
+        {{else}}
+          <span class="room_option_varname">Sichtbar für</span>
+          {{room_option_visitor "visible" options.visible}},
+          <span class="room_option_varname">lesbar für</span>
+          {{room_option_visitor "read" options.read}},
+          <span class="room_option_varname">offen für</span>
+          {{room_option_visitor "write" options.write}}
+        {{/if}}
+      </div>
+      {{/with}}
+    {{/isolate}}
+    </div>
+    <div id="messages">
+      <div id="older_messages">
+        {{#isolate}}
+          {{message_count_status}}
+        {{/isolate}}
+      </div>
+      {{#isolate}}
+        <div id="old_messages">
+          {{#each messages false}}
+            {{message this}}
+          {{/each}}
+        </div>
+        {{#if are_there_current_messages}}
+          <div id="current_messages">
+            <div class="current_messages_header">
+              {{#isolate}}
+                {{#with session_get "active_program"}}
+                  <h2>{{title.[0].[0]}}</h2>
+                {{/with}}
+              {{/isolate}}
+            </div>
+            {{#each messages true}}
+              {{message this}}
+            {{/each}}
+          </div>
+        {{/if}}
+      {{/isolate}}
+    </div>
+    {{#isolate}}
+      {{#with session_get "active_room"}}
+        {{#if eq options.write "members"}}
+          {{#if currentUser}}
+            <textarea placeholder="Deine Chatnachricht" id="chat_input"></textarea>
+          {{else}}
+          {{bug_user_to_log_in "Loggen Sie sich ein, um mitzureden"}}
+          {{/if}}
+        {{/if}}
+
+        {{#if eq options.write "friends"}}
+          {{#if check_friends_allowed}}
+            <textarea placeholder="Deine Chatnachricht" id="chat_input"></textarea>
+          {{else}}
+            <p>Leider dürfen hier nur Freunde von {{userwidget owner_name}} mitreden</p>
+          {{/if}}
+        {{/if}}
+
+        {{#if eq options.write "user"}}
+          {{#if eq owner_id currentUser._id}}
+            <textarea placeholder="Deine Chatnachricht" id="chat_input"></textarea>
+          {{else}}
+            <p>Leider darf hier nur {{userwidget owner_name}} reden.</p>
+          {{/if}}
+        {{/if}}
+      {{/with}}
+    {{/isolate}}
+  </div>
+</template>
+
+<template name="channel_bar">
+<div class="channel_bar" id="channel_bar">
+  <div class="set_on_click channel_bar_item" data-varname="active_channel_id" data-value="">
+    {{#isolate}}
+      {{#each channels}}
+        {{#constant}}
+          <img src="{{this.logo}}" style="float:left; height:{{channel_count_square_percent}}px">
+        {{/constant}}
+      {{/each}}
+    {{/isolate}}
+  </div>
+  {{#each channels}}
+    <div class="channel_bar_item set_on_click" data-varname="active_channel_id" data-value="{{this._id}}">
+      {{#constant}}
+        <div style="background-image: url({{this.logo}});" class="logo">
+        </div>
+      {{/constant}}
+    </div>
+  {{/each}}
+</div>
+</template>
+
+<template name="beta">
+<div id="beta">
+  Alpha
+</div>
+</template>
+
+<template name="timeline">
+<div id="timeline">
+  <div id="timeline_bar">
+    <div id="message_marker"></div>
+    <div id="timeline_progress_bar">
+      <div class="arrow_box" id="progress_box"></div>
+    </div>
+  </div>
+  </div>
+</div>
+</template>
+
+<template name="program_info">
+  <div id="program_info">
+  {{#with program}}
+    <div id="current_program_info">
+      <h3 class="channel_display_name">{{channel_display_name channel}}</h3>
+      <h2>{{title.[0].[0]}}</h2>
+      <h3>{{sub-title.[0].[0]}}</h3>
+      <span class="currentDuration">{{formatTime this.start}} - {{formatTime this.stop}} Uhr</span>
+      <div class="ratings">
+        {{#isolate}}
+        {{#if currentUser}}
+        <div class="button_bar" id="rating_button_bar">
+          <button class="rating" id="like_button" value="like">mag ich</button><button class="rating" id="dont_like_button" value="dont_like">mag ich nicht</button>
+        </div>
+        {{else}}
+        {{bug_user_to_log_in "Loggen Sie sich ein, um diese Sendung zu berwerten"}}
+        {{/if}}
+        {{/isolate}}
+        <div class="combined_ratings">
+          {{ratings}} 
+        </div>
+      </div>
+    </div>
+    <div id="similar_programs_info">
+      <h3>Alle Sendungen dieses Programms</h3>
+      <div class="combined_ratings">
+        {{similar_ratings}}
+      </div>
+    </div>
+  {{/with}}
+  </div>
+</template>
+
+<template name="ratings">
+{{#with ratings}}
+<div class="positive_ratings rating_bar" style="width:{{{likes_percent}}}%"></div>
+<div class="negative_ratings rating_bar" style="width:{{{dont_likes_percent}}}%"></div>
+<div>
+  {{likes}} positive, {{dont_likes}} negative Bewertungen
+</div>
+{{/with}}
+</template>
+
+<template name="bug_user_to_log_in">
+<div class="bug_user_to_log_in">
+  <a class="set_on_click" data-varname="log_in_status" data-value="logging_in">{{message}}</a>
+</div>
+</template>
+
+<template name="room_option_owner">
+<select data-varname="{{option_varname}}" >
+  {{#unless eq option_varname "write"}}
+  <option value="public" {{#if eq option_value "public"}}selected="true"{{/if}}>alle</option>
+  {{/unless}}
+  <option value="members" {{#if eq option_value "members"}}selected="true"{{/if}}>Fernsehnauten</option>
+  <option value="friends" {{#if eq option_value "friends"}}selected="true"{{/if}}>Freunde</option>
+  <option value="user" {{#if eq option_value "user"}}selected="true"{{/if}}>mich</option>
+</select>
+</template>
+
+<template name="room_option_visitor">
+  <span class="room_option_value">{{#if eq option_value "public"}}alle{{/if}}{{#if eq option_value "members"}}Fernsehnauten{{/if}}{{#if eq option_value "friends"}}Freunde{{/if}}{{#if eq option_value "user"}}mich{{/if}}</span>
+</template>
+
+<template name="message">
+{{#with message}}
+<div class="message">
+  <div class="username_and_delta">
+    <span class="message_username">
+      {{userwidget user_username}}
+    </span>
+    {{#constant}}
+    <span class="message_delta"></span>
+    {{/constant}}
+  </div>
+  {{#constant}}
+    <div class="message_text">
+      {{msg}}
+    </div>
+  {{/constant}}
+</div>
+{{/with}}
+</template>
+
+<template name="userwidget">
+{{#if currentUser}}
+  <span class="userwidget">
+    {{#constant}}
+    <span class="fernsehnaut">{{name}}</span>
+    {{/constant}}
+    {{#unless eq currentUser.username name}}
+    <span class="userwidget_popup">
+    <img class="avatar" src="{{session_get gravatar_session_var}}">
+    {{#isolate}}
+    {{small_profile_from_session name profile_session_var}}
+    {{/isolate}}
+    <div class="friend_status">
+    {{#isolate}}
+    {{#if is_friend}}
+      {{#if eq friend_status "accepted"}}
+        {{name}} ist ein Freund von Ihnen.
+      {{/if}}
+      {{#if eq friend_status "pending"}}
+        Sie haben Freundschaft mit {{name}} angefragt!
+      {{/if}}
+      {{#if eq friend_status "requested"}}
+        <div class="button_bar">
+          <button class="accept_friendship_name" value="{{name}}">Akzeptieren</button>
+        </div>
+        {{name}} hat Ihre Freundschaft angefragt!
+      {{/if}}
+    {{else}}
+      <div class="button_bar">
+        <button class="request_friendship_name" value="{{name}}">Anfragen</button>
+      </div>
+      Sie sind nicht mit {{name}} befreundet.
+    {{/if}}
+    {{/isolate}}
+    </div>
+  </span>
+  {{/unless}}
+  </span>
+{{else}}
+  {{username}}
+{{/if}}
+</template>
+
+<template name="small_profile">
+<div class="small_profile">
+  <h4>
+    {{name}}
+  </h4>
+  {{#with profile}}
+    {{#if all firstname lastname}}
+      <div class="realname">
+        {{firstname}} {{lastname}}
+      </div>
+    {{/if}}
+    <div class="description">
+      {{#if description}}
+        {{description}}
+      {{/if}}
+    </div>
+  {{/with}}
+</div>
+</template>
+
+<template name="overview">
+<div id="overview">
+  <div id="overview_channel_logos">
+    {{#each channels}}
+      {{#constant}}
+        <div class="logo_container">
+          <div style="background-image: url({{this.logo}});">
+        </div>
+      {{/constant}}
+    {{/each}}
+  </div>
+  {{#each channels}}
+    <div class="overview_channel">
+      {{#each programs_by_channel this._id}}
+        <div style="width: {{this.display_width}}px; left:{{this.display_position}}px;" class="overview_program_outer">
+          <div class="overview_program_inner">
+          {{this.title.[0].[0]}}
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  {{/each}}
+</div>
+</template>

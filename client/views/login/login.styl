@@ -1,0 +1,126 @@
+@import "../../../00-common"
+
+.login_button
+  right: 0
+
+.fixed_login_button
+  position: fixed
+  z-index: 1000 
+
+.absolute_login_button
+  position: absolute
+  bottom: 0
+
+.login_button a
+  color: #dddddd
+
+.login_button a:hover
+  color: white
+
+#login_form
+  background-color: white
+  box-shadow: 0 0 25px black
+  box-sizing: border-box
+  top: 25%
+  left: 33.3%
+  width: 33.3%
+  //min-height: 50%
+  position: fixed
+
+#login_form_header
+  background-color: brand_background_color_dark
+  color: brand_foreground_color
+  padding: 16px
+
+#login_form_body
+  padding: 0 16px 16px 16px
+  overflow: auto
+
+#login_form_body input
+  border: line
+  width: 100%
+
+#login_form_body label
+  font-weight: bold
+  
+.login_input_line
+  clear: left
+  padding-bottom: 16px
+  //border-top: 1px solid brand_background_color_dark
+
+.login_input_line:first-child
+  padding-top: 16px
+  //border-top: none
+
+.close_button
+  float: right
+
+#login_button, #create_user_button, #forgot_password_button
+  background-gradient(#bde52b, #a5d328)
+  float: right
+
+#login_button:disabled, #create_user_button:disabled, #forgot_password_button:disabled
+  background: gray
+
+#login_button:disabled:hover, #create_user_button:disabled,:hover #forgot_password_button:disabled:hover
+  box-shadow: none
+  color: brand_background_color_dark
+  
+#login_form_footer
+  //background-color: brand_background_color_light
+  border-top: line
+  margin: 0 16px
+  padding: 16px 0
+
+#login_form_footer a
+  font-weight: bold
+
+#login_form_error
+  color: white
+  background-color: red
+  height: 100%
+  padding: 8px 16px
+
+#absolute_user_menu
+  position: absolute
+
+#fixed_user_status_button
+  //margin-right: 16px
+  overflow: auto
+
+#fixed_user_menu
+  position: fixed
+  right: 0
+  margin: 16px
+  top: 0
+  background-color: white
+  z-index: 33
+  width: 256px
+  //height: channel_height
+  box-sizing: border-box
+  z-index: 500
+  border: line
+  border-radius: 2px
+  display: none
+  box-shadow: 0 0 16px gray
+  padding: 16px
+  overflow: auto
+
+#fixed_user_status_button:hover #fixed_user_menu
+  display: block
+  animation: fadein 0.5s ease
+
+#fixed_user_menu a
+  color: gray
+
+#fixed_user_menu a:hover
+  color: black
+
+#logout_button
+  float: right
+
+.create_user_input_feedback
+  position: absolute
+  font-size: small
+  color: brand_background_color_dark
+  text-shadow: brand_foreground_color 0 0 3px

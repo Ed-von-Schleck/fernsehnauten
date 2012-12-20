@@ -1,0 +1,154 @@
+logo_width = 256px
+channel_height = 128px
+brand_color = #32BDD9
+brand_foreground_color = #FFBC40
+brand_foreground_color_light = #F7DC8B
+brand_background_color_dark = #33454E
+brand_background_color_light = #A3B6BF
+//main_background_color = #E4EEF0
+main_background_color = white
+
+box-sizing()
+  -moz-box-sizing: arguments
+  box-sizing: arguments
+  -webkit-box-sizing: arguments
+  -o-box-sizing: arguments
+  -ms-box-sizing: arguments
+
+box-shadow()
+  box-shadow: arguments
+  -moz-box-shadow: arguments
+  -webkit-box-shadow: arguments
+  -ms-box-shadow: arguments
+  -o-box-shadow: arguments
+
+background-gradient(top_color, bottom_color)
+  background: top_color
+  background: -moz-linear-gradient(top, top_color 0%, bottom_color 100%)
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,top_color), color-stop(100%,bottom_color))
+  background: -webkit-linear-gradient(top, top_color 0%,bottom_color 100%)
+  background: -o-linear-gradient(top, top_color 0%,bottom_color 100%)
+  background: -ms-linear-gradient(top, top_color 0%,bottom_color 100%)
+  background: linear-gradient(to bottom, top_color 0%,bottom_color 100%)
+  //filter progid:DXImageTransform.Microsoft.gradient( startColorstr='top_color', endColorstr='bottom_color',GradientType=0 )
+
+.login-buttons 
+  /*
+  position: absolute
+  */
+  font-size: 16px
+
+
+#login-buttons a:hover, #login-buttons label:hover, .login-button:hover 
+  cursor: pointer
+
+.login-close-text, .login-link-text 
+  position: fixed
+  padding: 0 5px
+  top: 0
+  right: 0
+  line-height: 20px
+
+.login-link-text 
+  color: #dddddd
+  z-index: 20
+
+.login-link-text:hover 
+  color: white
+
+.accounts-dialog 
+  min-width: 256px
+  position: fixed
+  top: 22px
+  right: 0
+  box-shadow: 0 0 25px black
+  padding: 16px 16px 40px 16px
+  z-index: 112
+  background-color: white
+  background: #ffffff
+  background: -moz-linear-gradient(top, #ffffff 0%, #eeeeee 100%)
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#eeeeee))
+  background: -webkit-linear-gradient(top, #ffffff 0%,#eeeeee 100%)
+  background: -o-linear-gradient(top, #ffffff 0%,#eeeeee 100%)
+  background: -ms-linear-gradient(top, #ffffff 0%,#eeeeee 100%)
+  background: linear-gradient(to bottom, #ffffff 0%,#eeeeee 100%)
+  //filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#eeeeee',GradientType=0 )
+
+.login-close-text 
+  z-index: 113
+  background-color: white
+  line-height: 22px
+  color: gray
+
+
+.login-close-text:hover 
+  color: black
+
+
+.login-close-text:before 
+
+
+#login-email-label-and-input,
+#login-password-label-and-input,
+#login-old-password-label-and-input,
+#forgot-password-email-label-and-input,
+#login-username-label-and-input,
+#login-username-or-email-label-and-input 
+  border-bottom: 1px solid gray
+
+#login-email-label-and-input:hover,
+#login-password-label-and-input:hover,
+#login-old-password-label-and-input:hover,
+#forgot-password-email-label-and-input:hover,
+#login-username-label-and-input:hover, 
+#login-username-or-email-label-and-input:hover 
+  border-bottom: 1px solid black
+
+.accounts-dialog input 
+  border: none
+  padding: 0
+  font-style: italic
+  outline: none
+  position: relative
+
+.accounts-dialog label 
+  display: inline-block
+  width: 130px
+
+.login-button 
+  bottom: 0
+  box-sizing border-box
+  position: absolute
+  padding: 2px 5px
+  background-gradient(#9cd310, #8fc800)
+  font-size: small
+  font-weight: bold
+  text-align: center
+  text-shadow: 1px 1px 1px #ddd
+
+.login-button:hover 
+  background-gradient(#b4e52d, #8fc800)
+  box-shadow: 0 0 10px gray
+
+#login-buttons-password, #login-buttons-forgot-password 
+  width: 100%
+  left: 0
+
+.additional-link-container 
+  float: left
+  padding-right: 8px
+  font-size: 12px
+  color: gray
+
+.additional-link-container:hover 
+  color: black
+
+#login-buttons-open-change-password, #login-buttons-logout 
+  width: 50%
+
+#login-buttons-open-change-password 
+  left: 0
+
+#login-buttons-logout 
+  right: 0
+
