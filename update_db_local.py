@@ -94,10 +94,10 @@ else:
 
 xmltv_file = StringIO.StringIO()
 print "downloading data ..."
-xmltv_command = ["tv_grab_eu_egon"]
 #xmltv_str = subprocess.check_output(xmltv_command)
 xmltv_file = tempfile.NamedTemporaryFile()
-xmltv_process = subprocess.Popen(xmltv_command, stdout=xmltv_file)
+xmltv_command = ["tv_grab_eu_egon", "--output", xmltv_file.name]
+xmltv_process = subprocess.Popen(xmltv_command)
 xmltv_process.wait()
 #xmltv_str, err = xmltv_tempfile.read()
 print "... done"
