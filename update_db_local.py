@@ -94,7 +94,9 @@ else:
 xmltv_file = StringIO.StringIO()
 print "downloading data ..."
 xmltv_command = ["tv_grab_eu_egon"]
-xmltv_str = subprocess.check_output(xmltv_command)
+#xmltv_str = subprocess.check_output(xmltv_command)
+xmltv_process = subprocess.Popen(xmltv_command, stdout=subprocess.PIPE)
+xmltv_str, err = xmltv_process.communicate()
 print "... done"
 xmltv_file = StringIO.StringIO(xmltv_str)
 
