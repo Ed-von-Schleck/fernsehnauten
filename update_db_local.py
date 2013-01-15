@@ -6,6 +6,7 @@ from pprint import pprint
 import datetime
 import time
 import argparse
+import tempfile
 
 from pymongo import Connection
 from bson.objectid import ObjectId
@@ -95,10 +96,12 @@ xmltv_file = StringIO.StringIO()
 print "downloading data ..."
 xmltv_command = ["tv_grab_eu_egon"]
 #xmltv_str = subprocess.check_output(xmltv_command)
-xmltv_process = subprocess.Popen(xmltv_command, stdout=subprocess.PIPE)
-xmltv_str, err = xmltv_process.communicate()
+xmltv_file = tempfile.NamedTemporaryFile()
+xmltv_process = subprocess.Popen(xmltv_command, stdout=xmltv_file)
+xmltv_process.wait()
+#xmltv_str, err = xmltv_tempfile.read()
 print "... done"
-xmltv_file = StringIO.StringIO(xmltv_str)
+#xmltv_file = StringIO.StringIO(xmltv_str)
 
 print "inserting channels ..."
 for channel in xmltv.read_channels(xmltv_file):
