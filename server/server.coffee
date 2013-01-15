@@ -261,7 +261,7 @@ _cleanup = ->
       
   Rooms.update {
     _id:
-      $in: to_delete
+      $in: "to_delete"
   }, {
     $set:
       active: false
