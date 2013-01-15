@@ -83,7 +83,8 @@ if args.remote:
 if REMOTE_URL is not None:
     mongo_url_command.append(REMOTE_URL)
 
-mongo_url = subprocess.check_output(mongo_url_command)
+mongo_url = "mongodb://127.0.0.1:3002/meteor"
+
 print "using mongodb at:", mongo_url
 if args.remote:
     db = Connection(mongo_url).fernsehnauten_meteor_com
