@@ -94,14 +94,15 @@ else:
 
 xmltv_file = StringIO.StringIO()
 print "downloading data ..."
-#xmltv_str = subprocess.check_output(xmltv_command)
-xmltv_file = tempfile.NamedTemporaryFile()
-xmltv_command = ["xmltv.exe", "tv_grab_eu_egon", "--output", xmltv_file.name]
-xmltv_process = subprocess.Popen(xmltv_command)
-xmltv_process.wait()
+xmltv_command = ["xmltv.exe", "tv_grab_eu_egon"]
+xmltv_str = subprocess.check_output(xmltv_command)
+#xmltv_file = tempfile.NamedTemporaryFile(mode="w+b")
+
+#xmltv_process = subprocess.Popen(xmltv_command)
+#xmltv_process.wait()
 #xmltv_str, err = xmltv_tempfile.read()
 print "... done"
-#xmltv_file = StringIO.StringIO(xmltv_str)
+xmltv_file = StringIO.StringIO(xmltv_str)
 
 print "inserting channels ..."
 for channel in xmltv.read_channels(xmltv_file):
