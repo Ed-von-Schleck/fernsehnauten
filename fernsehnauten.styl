@@ -49,7 +49,7 @@ a:hover
   height: fixed_header_height
   position: fixed
   z-index: 11
-  box-shadow: 0 0 16px black
+  //box-shadow: 0 0 16px black
 
 #fixed_header h1 
   line-height: 20px
@@ -697,8 +697,18 @@ img.avatar
   box-sizing: border-box
 
 #nowplaying_timebar
-  height: 2em
-  position: absolute
+  top: fixed_header_height
+  height: nowplaying_timebar_height
+  position: fixed
+  background-color: #FFFFFF
+  //background-color: brand_background_color_dark
+  width: 100%
+  //color: brand_foreground_color
+
+#nowplaying
+  //margin-top: fixed_header_height+nowplaying_timebar_height
+  top: fixed_header_height + nowplaying_timebar_height
+  position: relative
   
 .nowplaying_logo_container
   height: nowplaying_channel_height
