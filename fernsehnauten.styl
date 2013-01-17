@@ -8,8 +8,6 @@ html, body
   height: 100%
   box-sizing border-box
   background-color: main_background_color
-  position: relative
-  overflow: auto
 
 a
   text-decoration: none
@@ -22,55 +20,25 @@ a:hover
 .program, #header h1, #header p, .channel p.currentProgram, #fixed_header h1 
   margin-left: logo_width
 
-#header, #fixed_header 
+#fixed_header 
   background-color: brand_background_color_dark
   width: 100%
-  //color: brand_color
   color: brand_foreground_color
-  top: 0
-
-#header 
-  height: 96px
-  padding: 16px 0
-  z-index: 12
-  position: relative
-  background-image: url(fernsehnauten_logo_draft_crop_001.png)
-  background-repeat: no-repeat
-  background-size: contain 
-  background-position: left
-  //top: -(fixed_header_height)
-
-#main_logo
-  height: 100%
-  width: 256px 
-  float: left
-
-#fixed_header 
   height: fixed_header_height
   position: fixed
   z-index: 11
   box-shadow: 0 0 16px black
 
 #fixed_header h1 
-  line-height: 20px
-  font-size: 20px
-
-#header h1, #header p, #fixed_header h1 
+  line-height: fixed_header_height
+  font-size: fixed_header_height
   padding-left: 16px
-
-#header h1 
-  font-size: 76px
-  line-height: 76px
-
-#header p 
-  font-size: 20px
-  line-height: 20px
-  letter-spacing: 0.5em
 
 #main 
   background-color: main_background_color
-  position: relative;
-  overflow: auto
+  position: relative
+  top: fixed_header_height
+  //overflow: auto
   //height: 100%
 
 .set_on_click:hover, button:hover

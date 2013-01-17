@@ -14,9 +14,7 @@
   {{else}}
     {{> fixed_login_button}}
   {{/if}}
-  <div id="fixed_header">
-    <h1>Fernsehnauten</h1>
-  </div>
+  {{> header}}
   <div id="main" role="main">
   {{#if session_equals "main_view_state" "user"}}
     {{#if currentUser}}
@@ -394,9 +392,6 @@
 </template>
 
 <template name="nowplaying">
-<div id="nowplaying_timebar">
-  Test
-</div>
 <div id="nowplaying">
   <div id="nowplaying_channel_logos">
     {{#each channels}}
