@@ -34,7 +34,7 @@
     {{#if session_get "active_channel_id"}}
     {{> channel}}
     {{else}}
-    {{> overview}}
+    {{> nowplaying}}
     {{/if}}
     
   {{/if}}
@@ -379,7 +379,7 @@
   <div id="overview_channel_logos">
     {{#each channels}}
       {{#constant}}
-        <div class="logo_container">
+        <div class="logo_container set_on_click" data-varname="active_channel_id" data-value="{{this._id}}">
           <div style="background-image: url({{this.logo}});">
         </div>
       {{/constant}}
@@ -396,5 +396,17 @@
       {{/each}}
     </div>
   {{/each}}
+</div>
+</template>
+
+<template name="nowplaying">
+<div id="nowplaying">
+  <div id="nowplaying_channel_logos">
+    {{#each channels}}
+      <div class="nowplaying_logo_container">
+        <div style="background-image: url({{this.logo}})">
+      </div>
+    {{/each}}
+  </div>
 </div>
 </template>
