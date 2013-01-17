@@ -4,34 +4,24 @@
 </head>
 
 <body>
-  {{#isolate}}
-  {{#if session_equals "log_in_status" "logging_in"}}
-  {{> login_form}}
-  {{/if}}
-  {{/isolate}}
-   {{#if currentUser}}
-    {{> fixed_user_status_button}}
-  {{else}}
-    {{> fixed_login_button}}
-  {{/if}}
   {{> header}}
-  <div id="main" role="main">
-  {{#if session_equals "main_view_state" "user"}}
-    {{#if currentUser}}
+  {{#unless currentUser}}
+    {{> login_form}}
+  {{else}}
+    {{> fixed_user_status_button}}
+    <div id="main" role="main">
+    {{#if session_equals "main_view_state" "user"}}
       {{> user_view}}
     {{else}}
-      <!-- TODO: handle not logged-in user-->
+      {{#if session_get "active_channel_id"}}
+      {{> channel}}
+      {{else}}
+      {{> nowplaying}}
+      {{/if}}
     {{/if}}
-  {{else}}
-    {{#if session_get "active_channel_id"}}
-    {{> channel}}
-    {{else}}
-    {{> nowplaying}}
-    {{/if}}
-    
-  {{/if}}
-  </div>
-  <footer>
+    </div>
+  {{/unless}}
+    <footer>
   </footer>
 </body>
 
@@ -75,7 +65,7 @@
   {{> program_info}}
   <div class="program">
     <div id="room_selector" class="button_bar">
-      {{#isolate}}{{#each rooms}}{{#isolate}}<button class="set_on_click" data-varname="active_room_id" data-value="{{this._id}}">{{this.name}}</button>{{/isolate}}{{/each}}{{/isolate}}{{#if currentUser}}<button id="add_room_button" value="add">+</button>{{/if}}
+      {{#isolate}}{{#each rooms}}{{#isolate}}<button class="set_on_click" data-varname="active_room_id" data-value="{{this._id}}">{{this.name}}</button>{{/isolate}}{{/each}}{{/isolate}}<button id="add_room_button" value="add">+</button>
     </div>
     <div id="room_options">
       {{#isolate}}
@@ -152,11 +142,7 @@
     {{#isolate}}
       {{#with session_get "active_room"}}
         {{#if eq options.write "members"}}
-          {{#if currentUser}}
-            <textarea placeholder="Deine Chatnachricht" id="chat_input"></textarea>
-          {{else}}
-          {{bug_user_to_log_in "Loggen Sie sich ein, um mitzureden"}}
-          {{/if}}
+          <textarea placeholder="Deine Chatnachricht" id="chat_input"></textarea>
         {{/if}}
 
         {{#if eq options.write "friends"}}
@@ -229,13 +215,9 @@
       <span class="currentDuration">{{formatTime this.start}} - {{formatTime this.stop}} Uhr</span>
       <div class="ratings">
         {{#isolate}}
-        {{#if currentUser}}
         <div class="button_bar" id="rating_button_bar">
           <button class="rating" id="like_button" value="like">mag ich</button><button class="rating" id="dont_like_button" value="dont_like">mag ich nicht</button>
         </div>
-        {{else}}
-        {{bug_user_to_log_in "Loggen Sie sich ein, um diese Sendung zu berwerten"}}
-        {{/if}}
         {{/isolate}}
         <div class="combined_ratings">
           {{ratings}} 
@@ -304,7 +286,6 @@
 </template>
 
 <template name="userwidget">
-{{#if currentUser}}
   <span class="userwidget">
     {{#constant}}
     <span class="fernsehnaut">{{name}}</span>
@@ -341,9 +322,6 @@
   </span>
   {{/unless}}
   </span>
-{{else}}
-  {{username}}
-{{/if}}
 </template>
 
 <template name="small_profile">
